@@ -8,6 +8,8 @@ import Home from './pages/Home/Home.jsx';
 import Login from './pages/Login/Login.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
 
+import './App.css';  // Import the CSS file here
+
 function App() {
   const [user, setUser] = useState(null);
 
@@ -15,11 +17,16 @@ function App() {
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.error('Failed to parse user from localStorage:', error);
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
-  // Wrapper to keep localStorage in sync
+  // Wrapper to keep user state and localStorage in sync
   const handleSetUser = (user) => {
     setUser(user);
     if (user) {
@@ -31,14 +38,17 @@ function App() {
 
   return (
     <Router>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <Navbar />
+      <div className="app-container">
+        <Navbar user={user} setUser={handleSetUser} />
 
-        <main style={{ flexGrow: 1, padding: '20px' }}>
+        <main className="app-main">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setUser={handleSetUser} />} />
-            <Route path="/dashboard" element={<Dashboard user={user} setUser={handleSetUser} />} />
+            <Route
+              path="/dashboard"
+              element={<Dashboard user={user} setUser={handleSetUser} />}
+            />
           </Routes>
         </main>
 

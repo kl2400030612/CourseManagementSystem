@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AdminDashboard from './AdminDashboard.jsx';
 import StudentDashboard from './StudentDashboard.jsx';
 
-export default function Dashboard({ user, setUser }) {
+export default function Dashboard({ user }) {
   const navigate = useNavigate();
 
   if (!user) {
@@ -16,17 +16,8 @@ export default function Dashboard({ user, setUser }) {
     );
   }
 
-  const handleLogout = () => {
-    setUser(null);
-    navigate('/login');
-  };
-
   return (
     <div style={{ padding: '20px' }}>
-      <button onClick={handleLogout} style={{ marginBottom: 20 }}>
-        Logout
-      </button>
-
       {user.role === 'admin' ? (
         <AdminDashboard user={user} />
       ) : (

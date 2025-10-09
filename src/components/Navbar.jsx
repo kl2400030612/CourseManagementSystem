@@ -1,39 +1,44 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import './Navbar.css';  // import CSS file
 
-export default function Navbar() {
-  const navStyle = {
-    padding: '10px 20px',
-    backgroundColor: '#282c34',
-    color: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  };
+export default function Navbar({ user, setUser }) {
+  const navigate = useNavigate();
 
-  const linkStyle = {
-    color: 'white',
-    textDecoration: 'none',
-    marginRight: '15px',
-    fontWeight: '500',
+  const handleLogout = () => {
+    setUser(null);
+    navigate('/login');
   };
 
   return (
-    <nav style={navStyle}>
-      <div style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-        <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+    <nav className="navbar">
+      <div className="navbar-brand">
+        <Link to="/" className="navbar-link brand-link">
           CoursePlatform
         </Link>
       </div>
 
-      <div>
-        <Link to="/" style={linkStyle}>
+      <div className="navbar-links">
+        <Link to="/" className="navbar-link">
           Home
         </Link>
-        <Link to="/login" style={linkStyle}>
-          Login
-        </Link>
-        {/* Add more links here as needed */}
+
+        {!user && (
+          <Link to="/login" className="navbar-link">
+            Login
+          </Link>
+        )}
+
+        {user && (
+          <>
+            <Link to="/dashboard" className="navbar-link">
+              Dashboard
+            </Link>
+            <span onClick={handleLogout} className="navbar-link logout-link" role="button" tabIndex={0}>
+              Logout
+            </span>
+          </>
+        )}
       </div>
     </nav>
   );

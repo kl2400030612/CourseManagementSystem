@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authenticate } from '../../auth/auth.js';
 
+import './Login.css'; // Import the CSS
+
 export default function Login({ setUser }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,27 +21,27 @@ export default function Login({ setUser }) {
   };
 
   return (
-    <div style={{ maxWidth: 300, margin: 'auto', padding: 20 }}>
-      <h2>Login</h2>
+    <div className="login-container">
+      <h2 className="login-title">Login</h2>
       <input
+        className="login-input"
         placeholder="Username"
         value={username}
         onChange={e => setUsername(e.target.value)}
-        style={{ display: 'block', marginBottom: 10, width: '100%', padding: 8 }}
         autoFocus
       />
       <input
         type="password"
+        className="login-input"
         placeholder="Password"
         value={password}
         onChange={e => setPassword(e.target.value)}
-        style={{ display: 'block', marginBottom: 10, width: '100%', padding: 8 }}
         onKeyDown={e => e.key === 'Enter' && handleLogin()}
       />
-      <button onClick={handleLogin} style={{ width: '100%', padding: 8 }}>
+      <button className="login-button" onClick={handleLogin}>
         Login
       </button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="login-error">{error}</p>}
     </div>
   );
 }
