@@ -1,4 +1,3 @@
-// src/Dashboard.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,13 +22,13 @@ export default function Dashboard({ user }) {
         <div>
           <h4>Admin Dashboard</h4>
           <p>You can create and manage courses here.</p>
-          {/* Later: Add course creation form here */}
+          {/* Add admin-specific UI later */}
         </div>
       ) : (
         <div>
           <h4>Student Dashboard</h4>
-          <p>You can view and enroll in courses.</p>
-          {/* Later: Add course list and enrollment UI here */}
+          <p>You can view and enroll in courses here.</p>
+          {/* Add student-specific UI later */}
         </div>
       )}
     </div>
