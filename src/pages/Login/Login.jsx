@@ -26,6 +26,7 @@ export default function Login({ setUser }) {
         value={username}
         onChange={e => setUsername(e.target.value)}
         style={{ display: 'block', marginBottom: 10, width: '100%', padding: 8 }}
+        autoFocus
       />
       <input
         type="password"
@@ -33,6 +34,7 @@ export default function Login({ setUser }) {
         value={password}
         onChange={e => setPassword(e.target.value)}
         style={{ display: 'block', marginBottom: 10, width: '100%', padding: 8 }}
+        onKeyDown={e => e.key === 'Enter' && handleLogin()}
       />
       <button onClick={handleLogin} style={{ width: '100%', padding: 8 }}>
         Login

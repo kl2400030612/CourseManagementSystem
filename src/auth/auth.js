@@ -1,11 +1,10 @@
-// src/auth/auth.js
-
-export const users = {
-  admin: { username: 'admin', password: 'admin', role: 'admin' },
-  student: { username: 'student', password: 'student', role: 'student' },
-};
-
+// Example from your auth.js
 export function authenticate(username, password) {
-  const user = users[username];
-  return user && user.password === password ? user : null;
+  const users = [
+    { username: 'admin', password: 'admin', role: 'admin' },
+    { username: 'student', password: 'student', role: 'student' },
+  ];
+
+  const user = users.find(u => u.username === username && u.password === password);
+  return user || null;
 }
