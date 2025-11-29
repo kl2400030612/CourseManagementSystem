@@ -1,24 +1,56 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import './Home.css';  // Import the CSS
+import { useNavigate } from "react-router-dom";
+import { Storage } from "../../services/storage";
+import "./Home.css";
 
 export default function Home() {
   const navigate = useNavigate();
+  const courses = Storage.get("courses", []);
 
   return (
-    <div className="home-container">
-      <h1 className="home-title">Welcome to Course Platform</h1>
-      <p className="home-subtitle">Your place to learn awesome courses online!</p>
+    <div className="home-container" style={{ maxWidth: "800px", margin: "50px auto" }}>
+      <header>
+        <h1>Course Management System</h1>
+        <p>Learn, Manage, and Track Courses Online</p>
+      </header>
 
-      <hr className="home-divider" />
+      <section>
+        <h2>About the Platform</h2>
+        <p>
+          Access curated courses by expert lecturers. Students can track their
+          progress and complete courses. Admin can manage all users and content.
+        </p>
+      </section>
 
-      <h2 className="home-featured-title">Featured Courses</h2>
-      <ul className="home-course-list">
-        <li>React for Beginners</li>
-        <li>Intro to Python Programming</li>
-        <li>Web Development Bootcamp</li>
-      </ul>
+      <section>
+        <h2>Get Started</h2>
+        <button onClick={() => navigate("/register")}>Register</button>
+        <button onClick={() => navigate("/login")}>Login</button>
+      </section>
+
+      <section>
+        <h2>Available Courses</h2>
+        {courses.length === 0 ? (
+          <p>No courses available yet.</p>
+        ) : (
+          <ul>
+            {courses.map(c => (
+              <li key={c.id}>
+                <strong>{c.title}</strong> by {c.creator} <br />
+                {c.description}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section>
+        <h2>Features</h2>
+        <ul>
+          <li>Admin: CRUD for students, lecturers, courses</li>
+          <li>Lecturer: Add / edit courses</li>
+          <li>Student: View & enroll courses, track progress</li>
+        </ul>
+      </section>
     </div>
   );
 }

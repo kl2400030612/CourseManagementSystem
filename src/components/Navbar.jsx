@@ -1,44 +1,25 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Navbar.css';  // import CSS file
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar({ user, setUser }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setUser(null);
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/" className="navbar-link brand-link">
-          CoursePlatform
-        </Link>
+    <nav style={{ padding: "10px 20px", backgroundColor: "#333", color: "#fff", display: "flex", justifyContent: "space-between" }}>
+      <div>
+        <Link to="/" style={{ color: "#fff", textDecoration: "none", marginRight: "20px" }}>CoursePlatform</Link>
       </div>
-
-      <div className="navbar-links">
-        <Link to="/" className="navbar-link">
-          Home
-        </Link>
-
-        {!user && (
-          <Link to="/login" className="navbar-link">
-            Login
-          </Link>
-        )}
-
-        {user && (
-          <>
-            <Link to="/dashboard" className="navbar-link">
-              Dashboard
-            </Link>
-            <span onClick={handleLogout} className="navbar-link logout-link" role="button" tabIndex={0}>
-              Logout
-            </span>
-          </>
-        )}
+      <div>
+        <Link to="/" style={{ color: "#fff", marginRight: "10px" }}>Home</Link>
+        {!user && <Link to="/login" style={{ color: "#fff", marginRight: "10px" }}>Login</Link>}
+        {!user && <Link to="/register" style={{ color: "#fff", marginRight: "10px" }}>Register</Link>}
+        {user && <Link to="/dashboard" style={{ color: "#fff", marginRight: "10px" }}>Dashboard</Link>}
+        {user && <span onClick={handleLogout} style={{ cursor: "pointer" }}>Logout</span>}
       </div>
     </nav>
   );

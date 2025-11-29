@@ -1,135 +1,121 @@
-import React, { useState, useEffect } from 'react';
-import './StudentDashboard.css';  // Import the CSS file
-
-const COURSES_STORAGE_KEY = 'courses';
+import React, { useState, useEffect } from "react";
+import { Storage } from "../../services/storage";
+import Toast from "../../components/common/Toast";
 
 export default function StudentDashboard({ user }) {
-  const [courses, setCourses] = useState([]);
-  const [joinedCourses, setJoinedCourses] = useState([]);
-
-  const joinedStorageKey = user ? `joinedCourses_${user.username}` : null;
-
-  useEffect(() => {
-    try {
-      const savedCourses = localStorage.getItem(COURSES_STORAGE_KEY);
-      if (savedCourses) {
-        const parsedCourses = JSON.parse(savedCourses);
-        if (Array.isArray(parsedCourses)) {
-          setCourses(parsedCourses);
-        } else {
-          console.warn("Invalid course data format. Resetting.");
-          localStorage.removeItem(COURSES_STORAGE_KEY);
-        }
-      }
-    } catch (error) {
-      console.error("Error loading courses:", error);
-      localStorage.removeItem(COURSES_STORAGE_KEY);
-    }
-  }, []);
+  const [allCourses, setAllCourses] = useState([]);
+  const [studentData, setStudentData] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
-    if (!joinedStorageKey) {
-      setJoinedCourses([]);
-      return;
-    }
+    // Load all courses
+    const courses = Storage.get("courses", []);
+    setAllCourses(courses);
 
-    try {
-      const savedJoined = localStorage.getItem(joinedStorageKey);
-      if (savedJoined) {
-        const parsedJoined = JSON.parse(savedJoined);
-        if (Array.isArray(parsedJoined)) {
-          setJoinedCourses(parsedJoined);
-        } else {
-          console.warn("Invalid joined courses format. Resetting.");
-          localStorage.removeItem(joinedStorageKey);
-          setJoinedCourses([]);
-        }
-      } else {
-        setJoinedCourses([]);
-      }
-    } catch (error) {
-      console.error("Error loading joined courses:", error);
-      localStorage.removeItem(joinedStorageKey);
-      setJoinedCourses([]);
-    }
-  }, [joinedStorageKey]);
+    // Load students
+    const students = Storage.get("users", []).map(u => {
+      // Ensure student arrays exist
+      if (!u.coursesInProgress) u.coursesInProgress = [];
+      if (!u.coursesCompleted) u.coursesCompleted = [];
+      return u;
+    });
+    Storage.set("users", students);
 
-  useEffect(() => {
-    if (!joinedStorageKey) return;
-    try {
-      localStorage.setItem(joinedStorageKey, JSON.stringify(joinedCourses));
-    } catch (error) {
-      console.error("Failed to save joined courses:", error);
-    }
-  }, [joinedCourses, joinedStorageKey]);
+    // Find current student
+    const current = students.find(u => u.username === user.username);
+    setStudentData(current || { ...user, coursesInProgress: [], coursesCompleted: [] });
+  }, [user]);
 
-  const handleJoinCourse = (course) => {
-    if (joinedCourses.some(c => c.id === course.id)) return;
-
-    const joinedCourse = {
-      id: course.id,
-      title: course.title,
-      instructor: course.instructor,
-      duration: course.duration,
-      category: course.category,
-      joinedAt: new Date().toISOString(),
-    };
-
-    setJoinedCourses(prev => [...prev, joinedCourse]);
+  // Update student in state & localStorage
+  const updateStudent = (updated) => {
+    setStudentData(updated);
+    const students = Storage.get("users", []);
+    const updatedStudents = students.map(u => u.username === user.username ? updated : u);
+    Storage.set("users", updatedStudents);
   };
 
-  const isCourseJoined = (courseId) => joinedCourses.some(c => c.id === courseId);
+  // Join course
+  const joinCourse = (courseId) => {
+    if (!studentData.coursesInProgress.includes(courseId) &&
+        !studentData.coursesCompleted.includes(courseId)) {
+      const updated = {
+        ...studentData,
+        coursesInProgress: [...studentData.coursesInProgress, courseId]
+      };
+      updateStudent(updated);
+      setToast({ message: "Joined course successfully!", type: "success" });
+    }
+  };
 
-  if (!user) {
-    return <p className="student-msg">Please login to view your dashboard.</p>;
-  }
+  // Mark course completed
+  const completeCourse = (courseId) => {
+    const updated = {
+      ...studentData,
+      coursesInProgress: studentData.coursesInProgress.filter(id => id !== courseId),
+      coursesCompleted: [...studentData.coursesCompleted, courseId]
+    };
+    updateStudent(updated);
+    setToast({ message: "Course marked as completed!", type: "success" });
+  };
+
+  // Re-register completed course
+  const reRegisterCourse = (courseId) => {
+    if (studentData.coursesCompleted.includes(courseId)) {
+      const updated = {
+        ...studentData,
+        coursesCompleted: studentData.coursesCompleted.filter(id => id !== courseId),
+        coursesInProgress: [...studentData.coursesInProgress, courseId]
+      };
+      updateStudent(updated);
+      setToast({ message: "Course re-registered!", type: "success" });
+    }
+  };
 
   return (
-    <div className="student-dashboard">
-      <h2 className="dashboard-title">Student Dashboard</h2>
-      <p className="welcome-msg">Welcome, {user.username}! Browse and join courses below.</p>
+    <div style={{ padding: "20px" }}>
+      <h2>Welcome, {user.username}</h2>
 
-      <section className="available-courses">
+      <section>
         <h3>Available Courses</h3>
-        {courses.length === 0 ? (
-          <p>No courses available.</p>
-        ) : (
-          <ul className="course-list">
-            {courses.map(course => {
-              const joined = isCourseJoined(course.id);
-              return (
-                <li key={course.id} className="course-item">
-                  <strong>{course.title}</strong> by {course.instructor} <br />
-                  <span className="course-meta">{course.duration} | {course.category}</span><br />
-                  <small className="course-created">Created: {new Date(course.createdAt).toLocaleString()}</small><br />
-                  {joined ? (
-                    <button className="joined-btn" disabled>Joined</button>
-                  ) : (
-                    <button className="join-btn" onClick={() => handleJoinCourse(course)}>Join Course</button>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <ul>
+          {allCourses.map(course => {
+            const inProgress = studentData?.coursesInProgress.includes(course.id);
+            const completed = studentData?.coursesCompleted.includes(course.id);
+
+            return (
+              <li key={course.id} style={{ marginBottom: "10px" }}>
+                <strong>{course.title}</strong> by {course.creator} <br />
+                {course.description} <br />
+                {!inProgress && !completed && <button onClick={() => joinCourse(course.id)}>Join</button>}
+                {inProgress && <button onClick={() => completeCourse(course.id)}>Mark Completed</button>}
+                {completed && <button onClick={() => reRegisterCourse(course.id)}>Re-register</button>}
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
-      {joinedCourses.length > 0 && (
-        <section className="joined-courses">
-          <h3>Your Joined Courses</h3>
-          <ul className="joined-list">
-            {joinedCourses.map(course => (
-              <li key={course.id} className="joined-item">
-                <strong>{course.title}</strong> by {course.instructor} <br />
-                <span className="joined-meta">
-                  Joined on: {new Date(course.joinedAt).toLocaleString()} <br />
-                  Duration: {course.duration} | Category: {course.category}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <section>
+        <h3>In-Progress Courses</h3>
+        <ul>
+          {studentData?.coursesInProgress.map(id => {
+            const c = allCourses.find(course => course.id === id);
+            return <li key={id}>{c?.title || "Unknown Course"}</li>;
+          })}
+        </ul>
+      </section>
+
+      <section>
+        <h3>Completed Courses</h3>
+        <ul>
+          {studentData?.coursesCompleted.map(id => {
+            const c = allCourses.find(course => course.id === id);
+            return <li key={id}>{c?.title || "Unknown Course"}</li>;
+          })}
+        </ul>
+      </section>
+
+      {toast && <Toast {...toast} />}
     </div>
   );
 }

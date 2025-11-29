@@ -1,28 +1,17 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import AdminDashboard from './AdminDashboard.jsx';
-import StudentDashboard from './StudentDashboard.jsx';
+import React from "react";
+import AdminDashboard from "./AdminDashboard";
+import LecturerDashboard from "./LecturerDashboard";
+import StudentDashboard from "./StudentDashboard";
 
 export default function Dashboard({ user }) {
-  const navigate = useNavigate();
-
-  if (!user) {
-    return (
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <h3>You must log in first.</h3>
-        <button onClick={() => navigate('/login')}>Go to Login</button>
-      </div>
-    );
+  switch (user.role) {
+    case "admin":
+      return <AdminDashboard user={user} />;
+    case "lecturer":
+      return <LecturerDashboard user={user} />;
+    case "student":
+      return <StudentDashboard user={user} />;
+    default:
+      return <p>Unknown role</p>;
   }
-
-  return (
-    <div style={{ padding: '20px' }}>
-      {user.role === 'admin' ? (
-        <AdminDashboard user={user} />
-      ) : (
-        <StudentDashboard user={user} />
-      )}
-    </div>
-  );
 }

@@ -1,54 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-import Navbar from './components/Navbar.jsx';
-import Footer from './components/Footer.jsx';
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
-import Home from './pages/Home/Home.jsx';
-import Login from './pages/Login/Login.jsx';
-import Dashboard from './pages/Dashboard/Dashboard.jsx';
-
-import './App.css';  // Import the CSS file here
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   const [user, setUser] = useState(null);
 
-  // Load user from localStorage on app mount
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error('Failed to parse user from localStorage:', error);
-        localStorage.removeItem('user');
-      }
-    }
+    const storedUser = localStorage.getItem("loggedInUser");
+    if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  // Wrapper to keep user state and localStorage in sync
   const handleSetUser = (user) => {
     setUser(user);
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('user');
-    }
+    if (user) localStorage.setItem("loggedInUser", JSON.stringify(user));
+    else localStorage.removeItem("loggedInUser");
   };
 
   return (
     <Router>
-      <div className="app-container">
+      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
         <Navbar user={user} setUser={handleSetUser} />
 
-        <main className="app-main">
+        <main style={{ flex: 1 }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setUser={handleSetUser} />} />
+            <Route path="/register" element={<Register />} />
             <Route
-              path="/dashboard"
-              element={<Dashboard user={user} setUser={handleSetUser} />}
+              path="/dashboard/*"
+              element={user ? <Dashboard user={user} /> : <Navigate to="/login" />}
             />
+            <Route path="*" element={<h2 style={{ textAlign: "center", marginTop: "50px" }}>404: Page Not Found</h2>} />
           </Routes>
         </main>
 
