@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Toast from "../../components/common/Toast";
+import "./AppRouter.css";
 
 export default function Register() {
   const { register } = useContext(AuthContext);

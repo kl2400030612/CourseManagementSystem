@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Storage } from "../../services/storage";
 import Toast from "../../components/common/Toast";
+import "./Register.css";
 
 export default function Register() {
   const [username, setUsername] = useState("");

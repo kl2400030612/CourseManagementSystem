@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Storage } from "../../services/storage";
 import Toast from "../../components/common/Toast";
+import "./Login.css";
 
 export default function Login({ setUser }) {
   const [username, setUsername] = useState("");

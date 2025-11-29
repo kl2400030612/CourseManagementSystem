@@ -2,6 +2,7 @@ import React from "react";
 import AdminDashboard from "./AdminDashboard";
 import LecturerDashboard from "./LecturerDashboard";
 import StudentDashboard from "./StudentDashboard";
+import "./Dashboard.css";
 
 export default function Dashboard({ user }) {
   switch (user.role) {

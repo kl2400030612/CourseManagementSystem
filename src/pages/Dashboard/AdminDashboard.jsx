@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Storage } from "../../services/storage";
 import Toast from "../../components/common/Toast";
+import "./AdminDashboard.css";
 
 export default function AdminDashboard() {
   const [courses, setCourses] = useState([]);

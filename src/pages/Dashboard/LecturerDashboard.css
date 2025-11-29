@@ -1,0 +1,90 @@
+/* ---------- Main Container ---------- */
+.lecturer-dashboard {
+  padding: 20px;
+  max-width: 900px;
+  margin: 30px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ---------- Heading ---------- */
+.lecturer-dashboard h2 {
+  font-size: 2rem;
+  color: #2b6cb0;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* ---------- Section Titles ---------- */
+.lecturer-dashboard section h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: #1a202c;
+  border-left: 5px solid #2b6cb0;
+  padding-left: 10px;
+}
+
+/* ---------- Input Fields ---------- */
+.lecturer-dashboard input,
+.lecturer-dashboard textarea {
+  width: 100%;
+  max-width: 350px;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.lecturer-dashboard input:focus,
+.lecturer-dashboard textarea:focus {
+  border-color: #2b6cb0;
+  outline: none;
+  box-shadow: 0 0 4px rgba(43, 108, 176, 0.3);
+}
+
+/* ---------- Buttons ---------- */
+.lecturer-dashboard button {
+  background-color: #2b6cb0;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  transition: 0.3s ease;
+}
+
+.lecturer-dashboard button:hover {
+  background-color: #1e4e85;
+}
+
+/* ---------- Courses List ---------- */
+.lecturer-dashboard ul {
+  list-style: none;
+  padding: 0;
+}
+
+.lecturer-dashboard ul li {
+  background: #f7fafc;
+  padding: 14px;
+  border-radius: 8px;
+  border-left: 5px solid #2b6cb0;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.lecturer-dashboard ul li strong {
+  color: #2b6cb0;
+}
+
+/* ---------- Section Spacing ---------- */
+.lecturer-dashboard section {
+  margin-bottom: 35px;
+}
+
+/* ---------- Toast Margin ---------- */
+.toast-container {
+  margin-top: 15px;
+}
