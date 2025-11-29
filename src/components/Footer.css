@@ -1,0 +1,20 @@
+/* Footer.css */
+
+/* Footer Container */
+footer {
+  background-color: var(--color-primary-dark);
+  color: var(--color-surface);
+  text-align: center;
+  padding: 20px 30px;
+  font-size: 14px;
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+/* Optional: responsive font size */
+@media (max-width: 768px) {
+  footer {
+    padding: 15px 20px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,67 @@
+/* Navbar.css */
+
+/* Navbar Container */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Brand / Logo */
+nav .brand a {
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--color-surface);
+}
+
+/* Navbar Links */
+nav div a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: var(--color-surface);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav div a:hover {
+  color: var(--color-primary-light);
+}
+
+/* Logout Button */
+nav div .logout {
+  margin-left: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--color-surface);
+  transition: color 0.3s ease;
+}
+
+nav div .logout:hover {
+  color: var(--color-secondary-light);
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav div {
+    margin-top: 10px;
+  }
+
+  nav div a,
+  nav div .logout {
+    display: block;
+    margin: 8px 0;
+  }
+}

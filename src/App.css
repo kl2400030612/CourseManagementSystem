@@ -1,0 +1,44 @@
+/* App.css */
+
+/* --------------------------
+   App Container
+-------------------------- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+/* --------------------------
+   Full Width Section
+-------------------------- */
+.full-width-section {
+  width: 100%;
+}
+
+/* --------------------------
+   Main Content
+-------------------------- */
+.main-content {
+  flex: 1;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --------------------------
+   404 Page
+-------------------------- */
+.main-content h2 {
+  color: var(--color-secondary);
+}
+
+/* Optional responsive spacing for small screens */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 20px 15px;
+  }
+}

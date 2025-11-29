@@ -1,30 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import "./toast.css";
 
 export default function Toast({ message, type = "info", duration = 3000 }) {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const el = document.getElementById("toast-container");
-      if (el) el.remove();
-    }, duration);
+  const [visible, setVisible] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(false), duration);
     return () => clearTimeout(timer);
   }, [duration]);
 
+  if (!visible) return null;
+
   return (
-    <div
-      id="toast-container"
-      style={{
-        position: "fixed",
-        top: "20px",
-        right: "20px",
-        backgroundColor: type === "error" ? "#f44336" : "#4caf50",
-        color: "#fff",
-        padding: "10px 20px",
-        borderRadius: "4px",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
-        zIndex: 9999,
-      }}
-    >
+    <div className={`toast-container ${type}`}>
       {message}
     </div>
   );
