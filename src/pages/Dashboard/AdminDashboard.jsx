@@ -13,13 +13,11 @@ export default function AdminDashboard() {
     setUsers(Storage.get("users", []));
   }, []);
 
-  // Approve a user
   const approveUser = (id) => {
     const updatedUsers = users.map(u => {
       if (u.id === id) {
         const approvedUser = { ...u, approved: true };
 
-        // Ensure student arrays exist
         if (approvedUser.role === "student") {
           if (!approvedUser.coursesInProgress) approvedUser.coursesInProgress = [];
           if (!approvedUser.coursesCompleted) approvedUser.coursesCompleted = [];
@@ -35,7 +33,6 @@ export default function AdminDashboard() {
     setToast({ message: "User approved", type: "success" });
   };
 
-  // Delete a course
   const deleteCourse = (id) => {
     const updatedCourses = courses.filter(c => c.id !== id);
     setCourses(updatedCourses);
@@ -44,22 +41,19 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="admin-dashboard">
       <h2>Admin Dashboard</h2>
 
-      <section>
+      <section className="pending-users-section">
         <h3>Pending Users</h3>
         {users.filter(u => !u.approved).length === 0 ? (
           <p>No pending users</p>
         ) : (
-          <ul>
+          <ul className="user-list">
             {users.filter(u => !u.approved).map(u => (
-              <li key={u.id} style={{ marginBottom: "5px" }}>
+              <li key={u.id} className="user-item">
                 {u.username} ({u.role})
-                <button 
-                  onClick={() => approveUser(u.id)}
-                  style={{ marginLeft: "10px" }}
-                >
+                <button className="btn-primary" onClick={() => approveUser(u.id)}>
                   Approve
                 </button>
               </li>
@@ -68,17 +62,17 @@ export default function AdminDashboard() {
         )}
       </section>
 
-      <section>
+      <section className="all-courses-section">
         <h3>All Courses</h3>
         {courses.length === 0 ? (
           <p>No courses yet</p>
         ) : (
-          <ul>
+          <ul className="course-list">
             {courses.map(c => (
-              <li key={c.id} style={{ marginBottom: "10px" }}>
-                <strong>{c.title}</strong> by {c.creator} <br />
+              <li key={c.id} className="course-item">
+                <strong>{c.title} by {c.creator} </strong>
                 {c.description} <br />
-                <button onClick={() => deleteCourse(c.id)}>Delete</button>
+                <button className="btn-secondary" onClick={() => deleteCourse(c.id)}>Delete</button>
               </li>
             ))}
           </ul>

@@ -1,0 +1,80 @@
+/* Dashboard.css */
+
+/* Container for all dashboards */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Section headers inside dashboard */
+.dashboard-container h2 {
+  font-size: 24px;
+  color: var(--color-primary);
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 5px;
+}
+
+/* Cards / Panels for content */
+.dashboard-card {
+  padding: 15px 20px;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Buttons inside dashboard */
+.dashboard-button {
+  padding: 10px 18px;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: bold;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.dashboard-button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* Table styles if needed */
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  border: 1px solid var(--color-border);
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.dashboard-table th {
+  background-color: var(--color-primary-light);
+  color: var(--color-surface);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 15px;
+  }
+
+  .dashboard-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

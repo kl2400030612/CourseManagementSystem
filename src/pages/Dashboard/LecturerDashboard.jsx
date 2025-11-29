@@ -45,34 +45,36 @@ export default function LecturerDashboard({ user }) {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="lecturer-dashboard">
       <h2>Lecturer Dashboard</h2>
 
-      <section>
+      <section className="add-course-section">
         <h3>Add New Course</h3>
         <input
+          className="course-input"
           placeholder="Course Title"
           value={title}
           onChange={e => setTitle(e.target.value)}
-          style={{ display: "block", margin: "10px 0", padding: "8px", width: "300px" }}
         />
         <textarea
+          className="course-textarea"
           placeholder="Description"
           value={description}
           onChange={e => setDescription(e.target.value)}
-          style={{ display: "block", margin: "10px 0", padding: "8px", width: "300px", height: "80px" }}
         />
-        <button onClick={addCourse}>Add Course</button>
+        <button className="btn-primary" onClick={addCourse}>Add Course</button>
       </section>
 
-      <section>
+      <section className="my-courses-section">
         <h3>My Courses</h3>
-        {courses.length === 0 ? <p>No courses yet.</p> : (
-          <ul>
+        {courses.length === 0 ? (
+          <p>No courses yet.</p>
+        ) : (
+          <ul className="course-list">
             {courses.map(c => (
-              <li key={c.id} style={{ marginBottom: "10px" }}>
+              <li key={c.id} className="course-item">
                 <strong>{c.title}</strong> - {c.description} <br />
-                <button onClick={() => deleteCourse(c.id)}>Delete</button>
+                <button className="btn-secondary" onClick={() => deleteCourse(c.id)}>Delete</button>
               </li>
             ))}
           </ul>

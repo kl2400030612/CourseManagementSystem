@@ -1,0 +1,106 @@
+/* StudentDashboard.css */
+
+/* Container */
+.student-dashboard {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Section headers */
+.student-dashboard h2 {
+  color: var(--color-primary);
+  margin-bottom: 15px;
+}
+
+.student-dashboard h3 {
+  color: var(--color-primary-dark);
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 5px;
+}
+
+/* Course list */
+.course-list {
+  list-style: none;
+  padding: 0;
+}
+
+.course-list li {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Buttons */
+.course-list button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--color-surface);
+  transition: background-color 0.3s ease;
+}
+
+/* Button types */
+.course-list button:nth-of-type(1) {
+  background-color: var(--color-primary);
+}
+
+.course-list button:nth-of-type(2) {
+  background-color: var(--color-secondary);
+}
+
+.course-list button:nth-of-type(3) {
+  background-color: var(--color-primary-light);
+  color: var(--color-text-primary);
+}
+
+/* Button hover effects */
+.course-list button:hover {
+  opacity: 0.9;
+}
+
+/* In-progress and completed lists */
+.in-progress-list, .completed-list {
+  list-style: disc;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.in-progress-list li {
+  color: var(--color-primary-dark);
+}
+
+.completed-list li {
+  color: var(--color-secondary-dark);
+  text-decoration: line-through;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .student-dashboard {
+    padding: 15px;
+  }
+
+  .course-list li {
+    padding: 12px;
+  }
+
+  .course-list button {
+    width: 100%;
+  }
+}

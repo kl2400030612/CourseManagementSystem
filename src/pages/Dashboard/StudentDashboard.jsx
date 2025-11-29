@@ -15,7 +15,6 @@ export default function StudentDashboard({ user }) {
 
     // Load students
     const students = Storage.get("users", []).map(u => {
-      // Ensure student arrays exist
       if (!u.coursesInProgress) u.coursesInProgress = [];
       if (!u.coursesCompleted) u.coursesCompleted = [];
       return u;
@@ -73,47 +72,64 @@ export default function StudentDashboard({ user }) {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="student-dashboard">
       <h2>Welcome, {user.username}</h2>
 
+      {/* Available Courses */}
       <section>
         <h3>Available Courses</h3>
-        <ul>
+        <ul className="course-list">
           {allCourses.map(course => {
             const inProgress = studentData?.coursesInProgress.includes(course.id);
             const completed = studentData?.coursesCompleted.includes(course.id);
 
             return (
-              <li key={course.id} style={{ marginBottom: "10px" }}>
+              <li key={course.id}>
                 <strong>{course.title}</strong> by {course.creator} <br />
                 {course.description} <br />
-                {!inProgress && !completed && <button onClick={() => joinCourse(course.id)}>Join</button>}
-                {inProgress && <button onClick={() => completeCourse(course.id)}>Mark Completed</button>}
-                {completed && <button onClick={() => reRegisterCourse(course.id)}>Re-register</button>}
+                {!inProgress && !completed && (
+                  <button onClick={() => joinCourse(course.id)}>Join</button>
+                )}
+                {inProgress && (
+                  <button onClick={() => completeCourse(course.id)}>Mark Completed</button>
+                )}
+                {completed && (
+                  <button onClick={() => reRegisterCourse(course.id)}>Re-register</button>
+                )}
               </li>
             );
           })}
         </ul>
       </section>
 
+      {/* In-Progress Courses */}
       <section>
         <h3>In-Progress Courses</h3>
-        <ul>
-          {studentData?.coursesInProgress.map(id => {
-            const c = allCourses.find(course => course.id === id);
-            return <li key={id}>{c?.title || "Unknown Course"}</li>;
-          })}
-        </ul>
+        {studentData?.coursesInProgress.length > 0 ? (
+          <ul className="in-progress-list">
+            {studentData.coursesInProgress.map(id => {
+              const c = allCourses.find(course => course.id === id);
+              return <li key={id}>{c?.title || "Unknown Course"}</li>;
+            })}
+          </ul>
+        ) : (
+          <p>No courses in progress.</p>
+        )}
       </section>
 
+      {/* Completed Courses */}
       <section>
         <h3>Completed Courses</h3>
-        <ul>
-          {studentData?.coursesCompleted.map(id => {
-            const c = allCourses.find(course => course.id === id);
-            return <li key={id}>{c?.title || "Unknown Course"}</li>;
-          })}
-        </ul>
+        {studentData?.coursesCompleted.length > 0 ? (
+          <ul className="completed-list">
+            {studentData.coursesCompleted.map(id => {
+              const c = allCourses.find(course => course.id === id);
+              return <li key={id}>{c?.title || "Unknown Course"}</li>;
+            })}
+          </ul>
+        ) : (
+          <p>No completed courses yet.</p>
+        )}
       </section>
 
       {toast && <Toast {...toast} />}
