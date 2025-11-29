@@ -9,6 +9,8 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 
+import "./App.css";
+
 function App() {
   const [user, setUser] = useState(null);
 
@@ -25,10 +27,10 @@ function App() {
 
   return (
     <Router>
-      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <div className="app-container full-width-section">
         <Navbar user={user} setUser={handleSetUser} />
 
-        <main style={{ flex: 1 }}>
+        <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setUser={handleSetUser} />} />
@@ -37,7 +39,7 @@ function App() {
               path="/dashboard/*"
               element={user ? <Dashboard user={user} /> : <Navigate to="/login" />}
             />
-            <Route path="*" element={<h2 style={{ textAlign: "center", marginTop: "50px" }}>404: Page Not Found</h2>} />
+            <Route path="*" element={<h2 className="text-center" style={{ marginTop: "50px" }}>404: Page Not Found</h2>} />
           </Routes>
         </main>
 

@@ -44,27 +44,30 @@ export default function Register() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}>
-      <h2>Register</h2>
+    <div className="register-container">
+      <h2 className="register-title">Register</h2>
       <input
+        className="register-input"
         placeholder="Username"
         value={username}
         onChange={e => setUsername(e.target.value)}
-        style={{ display: "block", margin: "10px auto", width: "100%", padding: "8px" }}
       />
       <input
+        className="register-input"
         placeholder="Password"
         type="password"
         value={password}
         onChange={e => setPassword(e.target.value)}
-        style={{ display: "block", margin: "10px auto", width: "100%", padding: "8px" }}
       />
-      <select value={role} onChange={e => setRole(e.target.value)} style={{ margin: "10px auto", padding: "8px", width: "100%" }}>
+      <select
+        className="register-select"
+        value={role}
+        onChange={e => setRole(e.target.value)}
+      >
         <option value="student">Student</option>
         <option value="lecturer">Lecturer</option>
       </select>
-      <button onClick={handleRegister} style={{ marginTop: "10px", padding: "10px 20px" }}>Register</button>
-
+      <button className="register-button" onClick={handleRegister}>Register</button>
       {toast && <Toast {...toast} />}
     </div>
   );

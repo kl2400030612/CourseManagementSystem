@@ -30,23 +30,24 @@ export default function Login({ setUser }) {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}>
-      <h2>Login</h2>
+    <div className="login-container">
+      <h2 className="login-title">Login</h2>
       <input
+        className="login-input"
         placeholder="Username"
         value={username}
         onChange={e => setUsername(e.target.value)}
-        style={{ display: "block", margin: "10px auto", width: "100%", padding: "8px" }}
+        onKeyDown={e => e.key === "Enter" && handleLogin()}
       />
       <input
+        className="login-input"
         placeholder="Password"
         type="password"
         value={password}
         onChange={e => setPassword(e.target.value)}
-        style={{ display: "block", margin: "10px auto", width: "100%", padding: "8px" }}
         onKeyDown={e => e.key === "Enter" && handleLogin()}
       />
-      <button onClick={handleLogin} style={{ marginTop: "10px", padding: "10px 20px" }}>Login</button>
+      <button className="login-button" onClick={handleLogin}>Login</button>
       {toast && <Toast {...toast} />}
     </div>
   );
